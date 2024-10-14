@@ -68,7 +68,26 @@ describe("Articles endpoint", () => {
       .get("/api/articles/679")
       .expect(404)
       .then(({ body }) => {
-        expect(body.msg).toBe("Article not found");
+        expect(body.msg).toBe("Article Not Found");
+      });
+  });
+  test("GET:200 - Returns all articles", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((result) => {
+        const parsedData = JSON.parse(result.text);
+        expect(parsedData.articles).toBeSorted({ descending: true });
+
+        parsedData.articles.forEach((data) => {
+          expect(typeof data.author).toBe("string");
+          expect(typeof data.title).toBe("string");
+          expect(typeof data.article_id).toBe("number");
+          expect(typeof data.topic).toBe("string");
+          expect(typeof data.created_at).toBe("string");
+          expect(typeof data.votes).toBe("number");
+          expect(typeof data.comment_count).toBe("number");
+        });
       });
   });
 });
