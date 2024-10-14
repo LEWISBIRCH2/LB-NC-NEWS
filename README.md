@@ -2,8 +2,8 @@
 
 Databases:
 
-LB_NEWS  //Dev
-LB_NEWS_TEST //Test
+lb_news  //Dev
+lb_news_test //Test
 
 --- 
 
