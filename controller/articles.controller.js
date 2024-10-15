@@ -4,6 +4,7 @@ const {
   fetchArticleComments,
   publishArticleComment,
   modelPatchArticleVotes,
+  modelDeleteComment,
 } = require("../model/articles.model");
 
 exports.getArticle = (request, response, next) => {
@@ -61,6 +62,17 @@ exports.patchArticleVotes = (request, response, next) => {
   modelPatchArticleVotes(patchNum, patchBody)
     .then((result) => {
       response.status(200).send({ article: result });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.deleteComment = (request, response, next) => {
+  const commentNum = request.params.comment_id;
+  modelDeleteComment(commentNum)
+    .then(() => {
+      response.status(204).send({ message: "Deletion Successful!" });
     })
     .catch((err) => {
       next(err);
