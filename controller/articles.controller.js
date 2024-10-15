@@ -3,6 +3,7 @@ const {
   fetchAllArticles,
   fetchArticleComments,
   publishArticleComment,
+  modelPatchArticleVotes,
 } = require("../model/articles.model");
 
 exports.getArticle = (request, response, next) => {
@@ -47,6 +48,19 @@ exports.postArticleComment = (request, response, next) => {
   publishArticleComment(postAuthor, postBody, postNum)
     .then((result) => {
       response.status(201).send({ comment: result });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.patchArticleVotes = (request, response, next) => {
+  const patchNum = request.params.article_id;
+  const patchBody = request.body.inc_votes;
+
+  modelPatchArticleVotes(patchNum, patchBody)
+    .then((result) => {
+      response.status(200).send({ article: result });
     })
     .catch((err) => {
       next(err);
