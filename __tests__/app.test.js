@@ -266,3 +266,16 @@ describe("Comments endpoint", () => {
     });
   });
 });
+
+describe("Users endpoint", () => {
+  test("GET:200 - Returns all users in an array", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then((result) => {
+        result.body.users.forEach((user) => {
+          expect(user).toHaveProperty("username", "name", "avatar_url");
+        });
+      });
+  });
+});
