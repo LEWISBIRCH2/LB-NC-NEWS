@@ -26,9 +26,24 @@ function fetchArticle(artNum) {
     .query(`SELECT * FROM articles WHERE article_id = $1`, [artNum])
     .then((result) => {
       if (result.rowCount === 0) {
-        return Promise.reject({ status: 404, message: "Article not found" });
+        return Promise.reject({ status: 404, message: "Article Not Found" });
       }
       return result.rows;
     });
 }
-module.exports = { fetchArticle, fetchAllArticles };
+
+function fetchArticleComments(artComNum) {
+  return db
+    .query(
+      ` SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at ASC`,
+      [artComNum]
+    )
+    .then((result) => {
+      if (result.rowCount === 0) {
+        return Promise.reject({ status: 404, message: "Article Not Found" });
+      } else {
+        return result.rows;
+      }
+    });
+}
+module.exports = { fetchArticle, fetchAllArticles, fetchArticleComments };
