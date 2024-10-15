@@ -1,5 +1,6 @@
 const { post } = require("superagent");
 const db = require("../db/connection");
+const { patchArticleVotes } = require("../controller/articles.controller");
 
 function fetchAllArticles(request, response) {
   return db
@@ -40,10 +41,10 @@ function fetchArticleComments(artComNum) {
       [artComNum]
     )
     .then((result) => {
-            return result.rows;
-      }
-    )}
-    
+      return result.rows;
+    });
+}
+
 function publishArticleComment(postAuthor, postBody, postNum) {
   return db
     .query(
@@ -55,9 +56,25 @@ function publishArticleComment(postAuthor, postBody, postNum) {
     });
 }
 
+function modelPatchArticleVotes(patchNum, patchBody) {
+  return db
+    .query(
+      "UPDATE articles SET votes = articles.votes+$1 WHERE article_id = $2 RETURNING *",
+      [patchBody, patchNum]
+    )
+    .then((result) => {
+      if (result.rowCount === 0) {
+        return Promise.reject({ status: 404, message: "Article Not Found" });
+      }
+      return result.rows[0];
+    });
+}
+
 module.exports = {
   fetchArticle,
   fetchAllArticles,
   fetchArticleComments,
   publishArticleComment,
+  modelPatchArticleVotes,
+  patchArticleVotes,
 };
