@@ -242,3 +242,27 @@ describe("Articles endpoint", () => {
     });
   });
 });
+
+describe("Comments endpoint", () => {
+  describe("DELETE METHODS", () => {
+    test("DELETE:204 - Deletes the specified comment (by comment ID)", () => {
+      return request(app).delete("/api/comments/4").expect(204);
+    });
+    test("DELETE:400 - Returns an error message if the specified comment is invalid", () => {
+      return request(app)
+        .delete("/api/comments/Ninety-Two")
+        .expect(400)
+        .then((result) => {
+          expect(result.body.msg).toBe("Bad Request");
+        });
+    });
+    test("DELETE:404 - Returns an error message if the specified comment does not exist", () => {
+      return request(app)
+        .delete("/api/comments/95")
+        .expect(404)
+        .then((result) => {
+          expect(result.text).toBe("Comment Not Found");
+        });
+    });
+  });
+});
