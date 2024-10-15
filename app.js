@@ -1,13 +1,12 @@
 const express = require("express");
 const app = express();
 const { getTopics } = require("./controller/topics.controller");
-const {
-  getEndpoints,
-} = require("./controller/endpoints.controller");
+const { getEndpoints } = require("./controller/endpoints.controller");
 const {
   getArticle,
   getAllArticles,
-  getArticleComments
+  getArticleComments,
+  postArticleComment,
 } = require("./controller/articles.controller");
 
 app.use(express.json());
@@ -22,9 +21,10 @@ app.get("/api/articles/:article_id", getArticle);
 
 app.get("/api/articles/:article_id/comments", getArticleComments);
 
+app.post("/api/articles/:article_id/comments", postArticleComment);
 
 app.use((err, request, response, next) => {
-  if (err.code === "22P02") {
+  if (err.code === "22P02" || err.code === "23502") {
     response.status(400).send({ msg: "Bad Request" });
   }
   if (err.status && err.message) {

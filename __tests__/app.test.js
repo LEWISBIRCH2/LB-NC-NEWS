@@ -107,6 +107,15 @@ describe("Articles endpoint", () => {
         });
       });
   });
+  test("GET:200 - Return an (empty) array when specified article has no comments", () => {
+    return request(app)
+      .get("/api/articles/7/comments")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.comments.length).toBe(0);
+        expect(Array.isArray(body.comments)).toBe(true);
+      });
+  });
   test("GET:400 - Returns a 400 error when given an invalid URL endpoint, with comments endpoint", () => {
     return request(app)
       .get("/api/articles/seven/comments")
@@ -122,6 +131,28 @@ describe("Articles endpoint", () => {
       .expect(404)
       .then((body) => {
         expect(body.text).toBe("Article Not Found");
+      });
+  });
+  test("POST:201 - Posts a comment to the specified article", () => {
+    const newPost = { username: "butter_bridge", body: "TL;DR!" };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newPost)
+      .expect(201)
+      .then((result) => {
+        expect(result.body.comment.body).toEqual(newPost.body);
+        expect(result.body.comment.author).toEqual(newPost.username);
+        expect(result.body.comment.article_id).toBe(2);
+      });
+  });
+  test("POST:400 - Responds with an error message when given insufficient post data", () => {
+    const newPost = { username: "butter_bridge" };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(newPost)
+      .expect(400)
+      .then((result) => {
+        expect(result.body.msg).toBe("Bad Request");
       });
   });
 });
