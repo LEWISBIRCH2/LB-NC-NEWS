@@ -4,15 +4,11 @@ const { getTopics } = require("./controller/topics.controller");
 const { getEndpoints } = require("./controller/endpoints.controller");
 const { getUsers } = require("./controller/users.controller");
 const { deleteComment } = require("./controller/comments.controller");
-const {
-  getArticle,
-  getAllArticles,
-  getArticleComments,
-  postArticleComment,
-  patchArticleVotes,
-} = require("./controller/articles.controller");
+const apiArticlesRouter = require('./articles_router')
 
 app.use(express.json());
+
+app.use ("/api/articles",apiArticlesRouter)
 
 app.get("/api", getEndpoints);
 
@@ -20,17 +16,7 @@ app.get("/api/users", getUsers);
 
 app.get("/api/topics", getTopics);
 
-app.get("/api/articles", getAllArticles);
-
-app.get("/api/articles/:article_id", getArticle);
-
 app.delete("/api/comments/:comment_id", deleteComment);
-
-app.patch("/api/articles/:article_id", patchArticleVotes);
-
-app.get("/api/articles/:article_id/comments", getArticleComments);
-
-app.post("/api/articles/:article_id/comments", postArticleComment);
 
 app.use((err, request, response, next) => {
   if (err.code === "22P02" || err.code === "23502") {
