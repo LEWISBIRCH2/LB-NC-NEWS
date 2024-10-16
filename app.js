@@ -2,18 +2,21 @@ const express = require("express");
 const app = express();
 const { getTopics } = require("./controller/topics.controller");
 const { getEndpoints } = require("./controller/endpoints.controller");
+const { getUsers } = require("./controller/users.controller");
+const { deleteComment } = require("./controller/comments.controller");
 const {
   getArticle,
   getAllArticles,
   getArticleComments,
   postArticleComment,
   patchArticleVotes,
-  deleteComment
 } = require("./controller/articles.controller");
 
 app.use(express.json());
 
 app.get("/api", getEndpoints);
+
+app.get("/api/users", getUsers);
 
 app.get("/api/topics", getTopics);
 
@@ -21,7 +24,7 @@ app.get("/api/articles", getAllArticles);
 
 app.get("/api/articles/:article_id", getArticle);
 
-app.delete('/api/comments/:comment_id', deleteComment)
+app.delete("/api/comments/:comment_id", deleteComment);
 
 app.patch("/api/articles/:article_id", patchArticleVotes);
 
