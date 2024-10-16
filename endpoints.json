@@ -102,5 +102,16 @@
   },
   "GET /api/articles?sort_by=title&order=asc": {
     "description": "Returns an array of all users, ordered/sorted by criteria provided"
+  },
+  "GET /api/articles?topic=mitch": {
+    "description": "Returns filtered results, by specified topic",
+    "exampleResponse": {
+      "title": "A",
+      "topic": "mitch",
+      "author": "icellusedkars",
+      "body": "Delicious tin of cat food",
+      "created_at": 1602986400000,
+      "article_img_url": "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
+    }
   }
 }

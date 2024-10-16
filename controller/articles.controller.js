@@ -18,8 +18,8 @@ exports.getArticle = (request, response, next) => {
 };
 
 exports.getAllArticles = (request, response, next) => {
-  const { sort_by, order } = request.query;
-  fetchAllArticles(sort_by, order)
+  const { sort_by, order, topic } = request.query;
+  fetchAllArticles(sort_by, order, topic)
     .then((result) => {
       response.status(200).send({ articles: result });
     })
