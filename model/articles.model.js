@@ -17,35 +17,27 @@ function fetchAllArticles(sort_by = "created_at", order = "desc", topic) {
     return Promise.reject({ status: 400, message: "Bad Request" });
   }
 
-  let query = `SELECT author,title,article_id,topic,created_at,votes,
-      article_img_url,comment_count FROM articles`;
-  let queryTop = [];
+  let query = `SELECT articles.author, articles.title, articles.article_id,
+        articles.topic, articles.created_at, articles.votes,
+        articles.article_img_url, COUNT(comments.comment_id) AS comment_count
+        FROM articles
+        LEFT JOIN comments ON articles.article_id = comments.article_id`;
 
+  let queryTop = [];
   if (topic) {
     query += ` WHERE topic = $1`;
     queryTop.push(topic);
   }
 
+  query += ` GROUP BY articles.article_id`;
   query += ` ORDER BY ${sort_by} ${order}`;
 
-  return db
-    .query(
-      `ALTER TABLE articles ADD COLUMN IF NOT EXISTS comment_count INT DEFAULT 0`
-    )
-    .then(() => {
-      return db.query(` 
-      UPDATE articles SET comment_count = (SELECT COUNT (*) FROM comments 
-      WHERE comments.article_id = articles.article_id);`);
-    })
-    .then(() => {
-      return db.query(query, queryTop);
-    })
-    .then((result) => {
-      if (result.rows.length === 0) {
-        return Promise.reject({ status: 400, message: "Bad Request" });
-      }
-      return result.rows;
-    });
+  return db.query(query, queryTop).then((result) => {
+    if (result.rows.length === 0) {
+      return Promise.reject({ status: 400, message: "Bad Request" });
+    }
+    return result.rows;
+  });
 }
 
 function fetchArticle(artNum) {

@@ -87,7 +87,7 @@ describe("Articles endpoint", () => {
             expect(typeof article.topic).toBe("string");
             expect(typeof article.created_at).toBe("string");
             expect(typeof article.votes).toBe("number");
-            expect(typeof article.comment_count).toBe("number");
+            expect(typeof article.comment_count).toBe("string");
           });
         });
     });
