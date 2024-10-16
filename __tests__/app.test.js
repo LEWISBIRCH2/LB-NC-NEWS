@@ -125,7 +125,6 @@ describe("Articles endpoint", () => {
           expect(body.msg).toBe("Bad Request");
         });
     });
-
     test("GET:404 - Returns a 404 error when specified article does not exist, with comments endpoint", () => {
       return request(app)
         .get("/api/articles/666/comments")
@@ -134,7 +133,50 @@ describe("Articles endpoint", () => {
           expect(body.text).toBe("Article Not Found");
         });
     });
+    test("GET:200 - Returns all articles sorted/ordered by default (created_at/desc)", () => {
+      return request(app)
+        .get("/api/articles?sort_by=created_at&order=desc")
+        .expect(200)
+        .then((body) => {
+          expect(body.body.articles).toBeSortedBy("created_at", {
+            descending: true,
+          });
+          expect(body.body.articles).not.toBeSortedBy("topic", {
+            descending: false,
+          });
+        });
+    });
+    test("GET:200 - Returns all articles sorted/ordered by specified criteria", () => {
+      return request(app)
+        .get("/api/articles?sort_by=title&order=asc")
+        .expect(200)
+        .then((body) => {
+          expect(body.body.articles).toBeSortedBy("title", {
+            descending: false,
+          });
+          expect(body.body.articles).not.toBeSortedBy("created_at", {
+            descending: true,
+          });
+        });
+    });
+    test("GET:400 - Returns an error when given an invalid sort_by", () => {
+      return request(app)
+        .get("/api/articles?sort_by=theme")
+        .expect(400)
+        .then((body) => {
+          expect(body.text).toBe("Bad Request");
+        });
+    });
+    test("GET:400 - Returns an error when given an invalid order", () => {
+      return request(app)
+        .get("/api/articles?order=alphabetical")
+        .expect(400)
+        .then((body) => {
+          expect(body.text).toBe("Bad Request");
+        });
+    });
   });
+
   describe("POST METHODS", () => {
     test("POST:201 - Posts a comment to the specified article", () => {
       const newPost = { username: "butter_bridge", body: "TL;DR!" };
@@ -199,6 +241,7 @@ describe("Articles endpoint", () => {
         });
     });
   });
+
   describe("PATCH METHODS", () => {
     test("PATCH:200 - Responds with an updated article vote count", () => {
       const newPatch = { inc_votes: 3 };
