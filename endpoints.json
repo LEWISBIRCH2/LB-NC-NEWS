@@ -99,5 +99,8 @@
       "name": "paul",
       "avatar_url": "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4"
     }
+  },
+  "GET /api/articles?sort_by=title&order=asc": {
+    "description": "Returns an array of all users, ordered/sorted by criteria provided"
   }
 }

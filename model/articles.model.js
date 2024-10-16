@@ -2,7 +2,21 @@ const { post } = require("superagent");
 const db = require("../db/connection");
 const { patchArticleVotes } = require("../controller/articles.controller");
 
-function fetchAllArticles(request, response) {
+function fetchAllArticles(sort_by = "created_at", order = "desc") {
+  const validSortBys = [
+    "author",
+    "title",
+    "article_id",
+    "topic",
+    "created_at",
+    "votes",
+  ];
+  const validOrders = ["asc", "desc"];
+
+  if (!validSortBys.includes(sort_by) || !validOrders.includes(order)) {
+    return Promise.reject({ status: 400, message: "Bad Request" });
+  }
+
   return db
     .query(
       `ALTER TABLE articles ADD COLUMN IF NOT EXISTS comment_count INT DEFAULT 0`
@@ -15,7 +29,7 @@ function fetchAllArticles(request, response) {
     .then(() => {
       return db.query(
         `SELECT author,title,article_id,topic,created_at,votes,
-      article_img_url,comment_count FROM articles ORDER BY created_at DESC;`
+      article_img_url,comment_count FROM articles ORDER BY ${sort_by} ${order};`
       );
     })
     .then((result) => {
