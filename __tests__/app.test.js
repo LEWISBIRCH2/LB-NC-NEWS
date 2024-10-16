@@ -175,6 +175,25 @@ describe("Articles endpoint", () => {
           expect(body.text).toBe("Bad Request");
         });
     });
+    test("GET:200 - Returns all articles filtered by specified topic", () => {
+      return request(app)
+        .get("/api/articles?topic=mitch")
+        .expect(200)
+        .then((body) => {
+          body.body.articles.forEach((topic) => {
+            expect(topic.topic).toBe("mitch");
+            expect(topic.topic).not.toBe("cats");
+          });
+        });
+    });
+    test("GET:400 - Returns an error when given an invalid topic", () => {
+      return request(app)
+        .get("/api/articles?topic=rosesrows")
+        .expect(400)
+        .then((body) => {
+          expect(body.text).toBe("Bad Request");
+        });
+    });
   });
 
   describe("POST METHODS", () => {
