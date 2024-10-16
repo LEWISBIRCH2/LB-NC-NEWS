@@ -194,6 +194,17 @@ describe("Articles endpoint", () => {
           expect(body.text).toBe("Bad Request");
         });
     });
+    test("GET:200 - Returns the provided article, with a comment_count section", () => {
+      return request(app)
+        .get("/api/articles/1")
+        .expect(200)
+        .then(({ body }) => {
+          body.article.forEach((result) => {
+            expect(result).toHaveProperty("comment_count");
+            expect(result.comment_count).toEqual('11')
+          });
+        });
+    });
   });
 
   describe("POST METHODS", () => {
