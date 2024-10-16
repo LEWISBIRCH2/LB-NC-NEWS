@@ -1,6 +1,5 @@
 const { post } = require("superagent");
 const db = require("../db/connection");
-const { patchArticleVotes } = require("../controller/articles.controller");
 
 function fetchAllArticles(sort_by = "created_at", order = "desc", topic) {
   const validSortBys = [
@@ -100,5 +99,4 @@ module.exports = {
   fetchArticleComments,
   publishArticleComment,
   modelPatchArticleVotes,
-  patchArticleVotes,
 };
