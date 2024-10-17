@@ -113,5 +113,13 @@
       "created_at": 1602986400000,
       "article_img_url": "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
     }
+  },
+  "GET /api/users/:username": {
+    "description": "Returns a single user, by specified username",
+    "exampleResponse": {
+      "username": "rogersop",
+      "name": "paul",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4"
+    }
   }
 }

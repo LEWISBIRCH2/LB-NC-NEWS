@@ -2,19 +2,21 @@ const express = require("express");
 const app = express();
 const { getTopics } = require("./controller/topics.controller");
 const { getEndpoints } = require("./controller/endpoints.controller");
-const { getUsers } = require("./controller/users.controller");
+const { getUsers, getSingleUser } = require("./controller/users.controller");
 const { deleteComment } = require("./controller/comments.controller");
-const apiArticlesRouter = require('./articles_router')
+const apiArticlesRouter = require("./articles_router");
 
 app.use(express.json());
-
-app.use ("/api/articles",apiArticlesRouter)
 
 app.get("/api", getEndpoints);
 
 app.get("/api/users", getUsers);
 
+app.get('/api/users/:username', getSingleUser)
+
 app.get("/api/topics", getTopics);
+
+app.use("/api/articles", apiArticlesRouter);
 
 app.delete("/api/comments/:comment_id", deleteComment);
 

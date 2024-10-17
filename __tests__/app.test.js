@@ -201,7 +201,7 @@ describe("Articles endpoint", () => {
         .then(({ body }) => {
           body.article.forEach((result) => {
             expect(result).toHaveProperty("comment_count");
-            expect(result.comment_count).toEqual('11')
+            expect(result.comment_count).toEqual("11");
           });
         });
     });
@@ -349,6 +349,27 @@ describe("Users endpoint", () => {
         result.body.users.forEach((user) => {
           expect(user).toHaveProperty("username", "name", "avatar_url");
         });
+      });
+  });
+  test("GET:200 - Returns a single user by specified username", () => {
+    return request(app)
+      .get("/api/users/lurker")
+      .expect(200)
+      .then((result) => {
+        expect(result.body.user.username).toBe("lurker");
+        expect(result.body.user).toHaveProperty(
+          "username",
+          "name",
+          "avatar_url"
+        );
+      });
+  });
+  test("GET:404 - Returns a 404 when the user is not found", () => {
+    return request(app)
+      .get("/api/users/soggy_doggy")
+      .expect(404)
+      .then((body) => {
+        expect(body.text).toBe("User Not Found");
       });
   });
 });
