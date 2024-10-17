@@ -42,7 +42,7 @@ function fetchAllArticles(
   if (topic) {
     query += ` LIMIT $2 OFFSET $3`;
   }
-  queryTop.push(limit,offset);
+  queryTop.push(limit, offset);
 
   return db.query(query, queryTop).then((result) => {
     if (result.rows.length === 0) {
@@ -70,11 +70,12 @@ function fetchArticle(artNum) {
     });
 }
 
-function fetchArticleComments(artComNum) {
+function fetchArticleComments(artComNum, limit, offset) {
   return db
     .query(
-      ` SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at ASC`,
-      [artComNum]
+      ` SELECT * FROM comments WHERE article_id = $1 ORDER BY created_at ASC
+      LIMIT $2 OFFSET $3`,
+      [artComNum, limit, offset]
     )
     .then((result) => {
       return result.rows;

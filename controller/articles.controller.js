@@ -38,7 +38,13 @@ exports.getAllArticles = (request, response, next) => {
 
 exports.getArticleComments = (request, response, next) => {
   const artComNum = request.params.article_id;
-  const promises = [fetchArticleComments(artComNum)];
+  const { limit = 10, page } = request.query;
+  let offset = 0;
+  if (page !== undefined) {
+    offset += limit * page - limit;
+  }
+
+  const promises = [fetchArticleComments(artComNum, limit, offset)];
 
   if (artComNum) {
     promises.push(fetchArticle(artComNum));

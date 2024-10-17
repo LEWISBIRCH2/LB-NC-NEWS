@@ -93,10 +93,10 @@ describe("Articles endpoint", () => {
     });
     test("GET:200 - Return an array of comments about the specified article", () => {
       return request(app)
-        .get("/api/articles/1/comments")
+        .get("/api/articles/3/comments")
         .expect(200)
         .then(({ body }) => {
-          expect(body.comments.length).toBe(11);
+          expect(body.comments.length).toBe(2);
           expect(body.comments).toBeSorted({ ascending: true });
           body.comments.forEach((result) => {
             expect(typeof result.comment_id).toBe("number");
@@ -404,6 +404,14 @@ describe("Articles endpoint", () => {
         .expect(400)
         .then((result) => {
           expect(result.text).toBe("Bad Request");
+        });
+    });
+    test("GET:200 - Test for pagination implementation in :article_id/comments", () => {
+      return request(app)
+        .get("/api/articles/1/comments?limit=3&page=2")
+        .expect(200)
+        .then((result) => {
+          expect(result.body.comments.length).toBe(3);
         });
     });
   });
