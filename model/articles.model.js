@@ -125,6 +125,22 @@ function publishArticle(postAuthor, postTitle, postBody, postTopic) {
       return result.rows[0];
     });
 }
+
+function modelDeleteArticle(artNum) {
+  return db
+    .query(`DELETE FROM comments WHERE article_id = $1 RETURNING *`, [artNum])
+    .then(() => {
+      return db.query(
+        `DELETE FROM articles WHERE article_id = $1 RETURNING *`,
+        [artNum]
+      );
+    })
+    .then((result) => {
+      if (result.rowCount === 0) {
+        return Promise.reject({ status: 404, message: "Article Not Found" });
+      }
+    });
+}
 module.exports = {
   fetchArticle,
   fetchAllArticles,
@@ -132,4 +148,5 @@ module.exports = {
   publishArticleComment,
   modelPatchArticleVotes,
   publishArticle,
+  modelDeleteArticle,
 };

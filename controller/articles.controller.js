@@ -5,6 +5,7 @@ const {
   publishArticleComment,
   modelPatchArticleVotes,
   publishArticle,
+  modelDeleteArticle
 } = require("../model/articles.model");
 
 exports.getArticle = (request, response, next) => {
@@ -95,6 +96,17 @@ exports.postArticle = (request, response, next) => {
   publishArticle(postAuthor, postTitle, postBody, postTopic)
     .then((result) => {
       response.status(201).send({ article: result });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.deleteArticle = (request, response, next) => {
+  const artNum = request.params.article_id;
+  modelDeleteArticle(artNum)
+    .then(() => {
+      response.status(204).send({});
     })
     .catch((err) => {
       next(err);
