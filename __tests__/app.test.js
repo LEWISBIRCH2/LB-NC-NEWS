@@ -180,9 +180,8 @@ describe("Articles endpoint", () => {
         .get("/api/articles?topic=mitch")
         .expect(200)
         .then((body) => {
-          body.body.articles.forEach((topic) => {
-            expect(topic.topic).toBe("mitch");
-            expect(topic.topic).not.toBe("cats");
+          body.body.articles.forEach((article) => {
+            expect(article.topic).toBe("mitch");
           });
         });
     });
@@ -332,6 +331,40 @@ describe("Comments endpoint", () => {
     test("DELETE:404 - Returns an error message if the specified comment does not exist", () => {
       return request(app)
         .delete("/api/comments/95")
+        .expect(404)
+        .then((result) => {
+          expect(result.text).toBe("Comment Not Found");
+        });
+    });
+  });
+  describe("PATCH METHODS", () => {
+    test("PATCH:200 - Responds with an updated comment with vote count", () => {
+      const newPatch = { inc_votes: 3 };
+      return request(app)
+        .patch("/api/comments/2")
+        .send(newPatch)
+        .expect(200)
+        .then((result) => {
+          expect(result.body.comment.votes).toBe(17);
+        });
+    });
+
+    test("PATCH:400 - Responds with an error when given an invalid comment_id", () => {
+      const newPatch = { inc_votes: 3 };
+      return request(app)
+        .patch("/api/comments/six")
+        .send(newPatch)
+        .expect(400)
+        .then((result) => {
+          expect(result.body.msg).toBe("Bad Request");
+        });
+    });
+
+    test("PATCH:404 - Responds with an error when the comment is not found", () => {
+      const newPatch = { inc_votes: 3 };
+      return request(app)
+        .patch("/api/comments/455")
+        .send(newPatch)
         .expect(404)
         .then((result) => {
           expect(result.text).toBe("Comment Not Found");
