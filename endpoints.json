@@ -133,5 +133,18 @@
         "created_at": 1604113380000
       }
     }
+  },
+  "POST /api/articles": {
+    "description": "posts a new article",
+    "exampleResponse": {
+      "article": {
+        "title": "A",
+        "topic": "mitch",
+        "author": "icellusedkars",
+        "body": "Delicious tin of cat food",
+        "created_at": 1602986400000,
+        "article_img_url": "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
+      }
+    }
   }
 }

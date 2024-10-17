@@ -269,6 +269,45 @@ describe("Articles endpoint", () => {
           expect(result.body.msg).toBe("Article Not Found");
         });
     });
+    test("POST:201 - Posts a new article", () => {
+      const newPost = {
+        author: "lurker",
+        title: "SQL for Cats",
+        body: "This is how to teach SQL to your cat",
+        topic: "cats",
+      };
+      return request(app)
+        .post("/api/articles")
+        .send(newPost)
+        .expect(201)
+        .then((result) => {
+          expect(result.body.article.body).toEqual(newPost.body);
+          expect(result.body.article.author).toEqual(newPost.author);
+          expect(result.body.article).toHaveProperty(
+            "article_id",
+            "title",
+            "topic",
+            "author",
+            "body",
+            "created_at",
+            "votes",
+            "article_img_url"
+          );
+        });
+    });
+    test("POST:400 - Responds with an error when given insufficient data fields", () => {
+      const newPost = {
+        author: "lurker",
+        title: "SQL for Cats",
+      };
+      return request(app)
+        .post("/api/articles")
+        .send(newPost)
+        .expect(400)
+        .then((result) => {
+          expect(result.text).toBe("Insufficient Post Data");
+        });
+    });
   });
 
   describe("PATCH METHODS", () => {

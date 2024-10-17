@@ -1,4 +1,3 @@
-const { post } = require("superagent");
 const db = require("../db/connection");
 
 function fetchAllArticles(sort_by = "created_at", order = "desc", topic) {
@@ -93,10 +92,29 @@ function modelPatchArticleVotes(patchNum, patchBody) {
     });
 }
 
+function publishArticle(postAuthor, postTitle, postBody, postTopic) {
+  if (
+    postAuthor === undefined ||
+    postBody === undefined ||
+    postTitle === undefined ||
+    postTopic === undefined
+  ) {
+    return Promise.reject({ status: 400, message: "Insufficient Post Data" });
+  }
+  return db
+    .query(
+      `INSERT INTO articles (author,title,body,topic) VALUES ($1, $2, $3, $4) RETURNING *`,
+      [postAuthor, postTitle, postBody, postTopic]
+    )
+    .then((result) => {
+      return result.rows[0];
+    });
+}
 module.exports = {
   fetchArticle,
   fetchAllArticles,
   fetchArticleComments,
   publishArticleComment,
   modelPatchArticleVotes,
+  publishArticle,
 };
