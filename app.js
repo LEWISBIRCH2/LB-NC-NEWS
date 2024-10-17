@@ -3,7 +3,7 @@ const app = express();
 const { getTopics } = require("./controller/topics.controller");
 const { getEndpoints } = require("./controller/endpoints.controller");
 const { getUsers, getSingleUser } = require("./controller/users.controller");
-const { deleteComment } = require("./controller/comments.controller");
+const { deleteComment, patchComment } = require("./controller/comments.controller");
 const apiArticlesRouter = require("./articles_router");
 
 app.use(express.json());
@@ -19,6 +19,8 @@ app.get("/api/topics", getTopics);
 app.use("/api/articles", apiArticlesRouter);
 
 app.delete("/api/comments/:comment_id", deleteComment);
+
+app.patch('/api/comments/:comment_id', patchComment)
 
 app.use((err, request, response, next) => {
   if (err.code === "22P02" || err.code === "23502") {
