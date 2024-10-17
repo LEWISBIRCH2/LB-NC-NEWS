@@ -13,17 +13,48 @@ afterAll(() => {
 });
 
 describe("Topics endpoint", () => {
-  test("GET:200 - Returns an array of topics", () => {
-    return request(app)
-      .get("/api/topics")
-      .expect(200)
-      .then(({ body }) => {
-        expect(body.topics.length).toBe(3);
-        body.topics.forEach((topic) => {
-          expect(typeof topic.slug).toBe("string");
-          expect(typeof topic.description).toBe("string");
+  describe("GET METHODS", () => {
+    test("GET:200 - Returns an array of topics", () => {
+      return request(app)
+        .get("/api/topics")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.topics.length).toBe(3);
+          body.topics.forEach((topic) => {
+            expect(typeof topic.slug).toBe("string");
+            expect(typeof topic.description).toBe("string");
+          });
         });
-      });
+    });
+  });
+  describe("POST METHODS", () => {
+    test("POST:201 - Posts a new topic", () => {
+      const newPost = {
+        description: "homeless snail",
+        slug: "garden",
+      };
+      return request(app)
+        .post("/api/topics")
+        .send(newPost)
+        .expect(201)
+        .then((result) => {
+          expect(result.body.topic.description).toEqual(newPost.description);
+          expect(result.body.topic.slug).toEqual(newPost.slug);
+        });
+    });
+    test("POST:400 - Returns an error when insufficient topic data is provided", () => {
+      const newPost = {
+        description: "homeless snail",
+      
+      };
+      return request(app)
+        .post("/api/topics")
+        .send(newPost)
+        .expect(400)
+        .then((result) => {
+          expect(result.text).toBe('Insufficient Post Data')
+        });
+    });
   });
 });
 
