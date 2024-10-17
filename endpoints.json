@@ -114,36 +114,43 @@
       "article_img_url": "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
     }
   },
-  "GET /api/users/:username": {
-    "description": "Returns a single user, by specified username",
+  "GET /api/articles?limit=5&page=2": {
+    "description": "Added pagination queries, as well as a total_count feature",
     "exampleResponse": {
-      "username": "rogersop",
-      "name": "paul",
-      "avatar_url": "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4"
-    }
-  },
-  "PATCH /api/comments/:comment_id": {
-    "description": "changes the number of votes a comment has",
-    "exampleResponse": {
-      "comment": {
-        "body": "The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.",
-        "votes": 14,
-        "author": "butter_bridge",
-        "article_id": 1,
-        "created_at": 1604113380000
+      "article": " X X X ",
+      "total_count": 3
+    },
+    "GET /api/users/:username": {
+      "description": "Returns a single user, by specified username",
+      "exampleResponse": {
+        "username": "rogersop",
+        "name": "paul",
+        "avatar_url": "https://avatars2.githubusercontent.com/u/24394918?s=400&v=4"
       }
-    }
-  },
-  "POST /api/articles": {
-    "description": "posts a new article",
-    "exampleResponse": {
-      "article": {
-        "title": "A",
-        "topic": "mitch",
-        "author": "icellusedkars",
-        "body": "Delicious tin of cat food",
-        "created_at": 1602986400000,
-        "article_img_url": "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
+    },
+    "PATCH /api/comments/:comment_id": {
+      "description": "changes the number of votes a comment has",
+      "exampleResponse": {
+        "comment": {
+          "body": "The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.",
+          "votes": 14,
+          "author": "butter_bridge",
+          "article_id": 1,
+          "created_at": 1604113380000
+        }
+      }
+    },
+    "POST /api/articles": {
+      "description": "posts a new article",
+      "exampleResponse": {
+        "article": {
+          "title": "A",
+          "topic": "mitch",
+          "author": "icellusedkars",
+          "body": "Delicious tin of cat food",
+          "created_at": 1602986400000,
+          "article_img_url": "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700"
+        }
       }
     }
   }

@@ -352,6 +352,61 @@ describe("Articles endpoint", () => {
         });
     });
   });
+
+  describe("PAGINATION TESTS", () => {
+    test("GET:200 - Test for pagination implementation (default limit 10)", () => {
+      return request(app)
+        .get("/api/articles")
+        .expect(200)
+        .then((result) => {
+          expect(result.body.articles.length).toBe(10);
+        });
+    });
+
+    test("GET:200 - Test for pagination implementation (limit 5)", () => {
+      return request(app)
+        .get("/api/articles?limit=5")
+        .expect(200)
+        .then((result) => {
+          expect(result.body.articles.length).toBe(5);
+        });
+    });
+
+    test("GET:200 - Test for pagination implementation", () => {
+      return request(app)
+        .get("/api/articles?limit=5&page=3")
+        .expect(200)
+        .then((result) => {
+          expect(result.body.articles.length).toBe(3);
+        });
+    });
+
+    test("GET:200 - Test for pagination implementation - added total_count", () => {
+      return request(app)
+        .get("/api/articles?limit=5&page=3")
+        .expect(200)
+        .then((result) => {
+          expect(result.body.total_count).toBe(13);
+        });
+    });
+
+    test("GET:200 - Test for pagination implementation - total_count with filters", () => {
+      return request(app)
+        .get("/api/articles?topic=cats")
+        .expect(200)
+        .then((result) => {
+          expect(result.body.total_count).toBe(1);
+        });
+    });
+    test("GET:400 - Returns an error when the page/offset is too high", () => {
+      return request(app)
+        .get("/api/articles?page=43")
+        .expect(400)
+        .then((result) => {
+          expect(result.text).toBe("Bad Request");
+        });
+    });
+  });
 });
 
 describe("Comments endpoint", () => {

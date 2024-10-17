@@ -19,10 +19,17 @@ exports.getArticle = (request, response, next) => {
 };
 
 exports.getAllArticles = (request, response, next) => {
-  const { sort_by, order, topic } = request.query;
-  fetchAllArticles(sort_by, order, topic)
+  const { sort_by, order, topic, limit = 10, page } = request.query;
+  let offset = 0;
+  if (page !== undefined) {
+    offset += limit * page - limit;
+  }
+
+  fetchAllArticles(sort_by, order, topic, limit, offset)
     .then((result) => {
-      response.status(200).send({ articles: result });
+      response
+        .status(200)
+        .send({ articles: result, total_count: result.length + offset });
     })
     .catch((err) => {
       next(err);

@@ -1,6 +1,12 @@
 const db = require("../db/connection");
 
-function fetchAllArticles(sort_by = "created_at", order = "desc", topic) {
+function fetchAllArticles(
+  sort_by = "created_at",
+  order = "desc",
+  topic,
+  limit,
+  offset
+) {
   const validSortBys = [
     "author",
     "title",
@@ -29,6 +35,14 @@ function fetchAllArticles(sort_by = "created_at", order = "desc", topic) {
 
   query += ` GROUP BY articles.article_id`;
   query += ` ORDER BY ${sort_by} ${order}`;
+
+  if (!topic) {
+    query += ` LIMIT $1 OFFSET $2;`;
+  }
+  if (topic) {
+    query += ` LIMIT $2 OFFSET $3`;
+  }
+  queryTop.push(limit,offset);
 
   return db.query(query, queryTop).then((result) => {
     if (result.rows.length === 0) {
