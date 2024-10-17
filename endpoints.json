@@ -32,7 +32,11 @@
       ]
     }
   },
-  "GET /api/articles:article_id": {
+  "DELETE /api/articles/:article_id": {
+    "description": "deletes the specificed article, and associated comments"
+  },
+
+  "GET /api/articles/:article_id": {
     "description": "retrieves the specificed article",
     "exampleResponse": {
       "article": [

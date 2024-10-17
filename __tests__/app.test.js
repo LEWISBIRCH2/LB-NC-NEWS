@@ -45,14 +45,13 @@ describe("Topics endpoint", () => {
     test("POST:400 - Returns an error when insufficient topic data is provided", () => {
       const newPost = {
         description: "homeless snail",
-      
       };
       return request(app)
         .post("/api/topics")
         .send(newPost)
         .expect(400)
         .then((result) => {
-          expect(result.text).toBe('Insufficient Post Data')
+          expect(result.text).toBe("Insufficient Post Data");
         });
     });
   });
@@ -377,6 +376,28 @@ describe("Articles endpoint", () => {
       return request(app)
         .patch("/api/articles/sixteen")
         .send(newPatch)
+        .expect(400)
+        .then((result) => {
+          expect(result.body.msg).toBe("Bad Request");
+        });
+    });
+  });
+
+  describe("DELETE METHODS", () => {
+    test("DELETE:204 - Deletes the specified article and associated comments", () => {
+      return request(app).delete("/api/articles/1").expect(204);
+    });
+    test("DELETE:404 - Returns an error message if the specified article does not exist", () => {
+      return request(app)
+        .delete("/api/articles/95")
+        .expect(404)
+        .then((result) => {
+          expect(result.text).toBe("Article Not Found");
+        });
+    });
+    test("DELETE:400 - Returns an error message if the specified article is invalid", () => {
+      return request(app)
+        .delete("/api/comments/Ninety-Two")
         .expect(400)
         .then((result) => {
           expect(result.body.msg).toBe("Bad Request");

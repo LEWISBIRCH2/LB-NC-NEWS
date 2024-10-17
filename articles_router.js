@@ -5,7 +5,8 @@ const {
   getArticleComments,
   postArticleComment,
   patchArticleVotes,
-  postArticle
+  postArticle,
+  deleteArticle
 } = require("./controller/articles.controller");
 
 
@@ -20,5 +21,7 @@ apiArticlesRouter.get("/:article_id/comments", getArticleComments);
 apiArticlesRouter.post("/", postArticle);
 
 apiArticlesRouter.post("/:article_id/comments", postArticleComment);
+
+apiArticlesRouter.delete('/:article_id', deleteArticle)
 
 module.exports = apiArticlesRouter;
