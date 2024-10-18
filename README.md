@@ -20,6 +20,9 @@ To clone this repo:
 ---
 
 List of DevDependencies - Huksy, Jest, Jest-Extended
+
+---
+
 List of Dependencies - Dotenv, Express, Jest-Sorted, PG, PG-Format, Supertest
 
 ---
