@@ -1,5 +1,6 @@
 
 This portfolio project was created as part of a Digital Skills Bootcamp in Software Engineering provided by [Northcoders](https://northcoders.com/)
+
 All work was completed independently, using the skills that have been taught in the last six weeks.
 
 This project aims to mimic the basic functionality of a text-based forum site, such as Reddit.
@@ -13,7 +14,9 @@ To clone this repo:
 - Open up the preferred CLI and type "git clone <COPIED_URL>"
 - Navigate to the newly-cloned directory, and type "npm install" to install the required npm packages
 - Create two ".env" files in the root of the directory. Title these ".env.development" and ".env.test"
+
   **This repo contains no private information, as such, the [setup.sql] file contains the database names. This set-up should be amended outside of a learning environment**
+
 - In each .env file, create a variable called "PGDATABASE=", with the following value being the <database_name>, or <database_name_test> respectively.
 - To set-up, seed, and test; run the following commands: "npm run setup-dbs" , "npm run seed" , "npm test"
 
