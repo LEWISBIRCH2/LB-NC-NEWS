@@ -19,10 +19,15 @@ To clone this repo:
 
 ---
 
+List of DevDependencies - Huksy, Jest, Jest-Extended
+List of Dependencies - Dotenv, Express, Jest-Sorted, PG, PG-Format, Supertest
+
+---
+
 Using Supabase and Render, this project has been made live and can be viewed by affixing the appropriate endpoint onto the following link:
 https://lb-nc-news.onrender.com
 
 ---
 
 Recommended minimum version of Node.js: v20.12.2
-Recommended minimum version of Postgres: ^8.13.0
+Recommended minimum version of Postgres: 8.13.0
