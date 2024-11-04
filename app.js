@@ -8,6 +8,9 @@ const {
   patchComment,
 } = require("./controller/comments.controller");
 const apiArticlesRouter = require("./articles_router");
+const cors = require('cors')
+
+app.use(cors());
 
 app.use(express.json());
 
