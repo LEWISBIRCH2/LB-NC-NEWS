@@ -1,4 +1,3 @@
-
 This portfolio project was created as part of a Digital Skills Bootcamp in Software Engineering provided by [Northcoders](https://northcoders.com/)
 
 All work was completed independently, using the skills that have been taught in the last six weeks.
@@ -33,6 +32,8 @@ List of Dependencies - Dotenv, Express, Jest-Sorted, PG, PG-Format, Supertest
 Using Supabase and Render, this project has been made live and can be viewed by affixing the appropriate endpoint onto the following link:
 https://lb-nc-news.onrender.com/api
 
+A hosted / front end version can be viewed by clicking the link below:
+https://lb-nc-news-frontend.netlify.app/
 
 ---
 
