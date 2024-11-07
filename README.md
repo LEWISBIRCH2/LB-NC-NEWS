@@ -31,7 +31,8 @@ List of Dependencies - Dotenv, Express, Jest-Sorted, PG, PG-Format, Supertest
 ---
 
 Using Supabase and Render, this project has been made live and can be viewed by affixing the appropriate endpoint onto the following link:
-https://lb-nc-news.onrender.com
+https://lb-nc-news.onrender.com/api
+
 
 ---
 
